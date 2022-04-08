@@ -4,14 +4,23 @@
 {% block content%}
 
 <br>
-<div class="card" style="width: 18rem;">
-  <div class="row">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<div class="card-group">
+  <div class="card" style="width: 18rem;">
+    <div class="row">
+      <div class="col-sm-3" style="margin: 10px 20px;">
+      {% for post in posts %}
+      <h4 class="card-text">{{ post.title }}</h4>
+      <img src="{{post.picture.url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-text">{{ post.post }}</p>
+          <p class="card-text">{{ post.author.username }}</p>
+          <p class="card-text">{{ post.published_date }}</p>
+          
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
-
 </div>
 
   
