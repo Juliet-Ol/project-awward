@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
-from .forms import ProfileForm
-from .models import Profile
+from .forms import ProfileForm, PostForm
+from .models import Post, Profile
 
 def index(request):
-
-    return render(request, 'awwardsproject/index.html')
+    profile_form=ProfileForm
+    post=Post.display()
+    return render(request, 'awwardsproject/index.html', {"posts":post, "profile_form":profile_form})
 
 
 
@@ -49,8 +50,9 @@ def profile(request):
         if form.is_valid():
             image=form.cleaned_data['image']   
             user=form.cleaned_data['user']  
-                      
-            profile=Profile(image,user)
+            bio=form.cleaned_data['bio'] 
+
+            profile=Profile(image,user,bio)
             form.save()
 
             profile=Profile.objects.get(user= request.user.id)
@@ -63,7 +65,31 @@ def profile(request):
     else:
         profile=Profile.objects.get(user_id= request.user)
 
-        return render(request, 'profile/profile.html', {'form': form, 'profile':profile})         
+        return render(request, 'profile/profile.html', {'form': form, 'profile':profile})     
+
+
+def post(request):
+    form = PostForm
+    current_user = request.user
+    if request.method == 'POST':
+        print(request.POST['post'])
+        form = PostForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            post = Post()
+            post.title = form.cleaned_data['title']
+            post.post = form.cleaned_data['post']
+            post.author = current_user
+            post.picture = form.cleaned_data['picture']
+            post.save()
+            messages.success(request, 'Posted')
+
+            return redirect ('index')
+        else:
+            return render(request, 'post/new_post.html', {'form': form})
+
+    else:
+        return render(request, 'post/new_post.html', {'form': form})             
 
 
 
