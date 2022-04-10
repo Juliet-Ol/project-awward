@@ -4,11 +4,12 @@
 
 <div class="content-section" >
     <div class="static">
-        <img class="rounded-circle account-img" style="width: 10%;" src=" {{ user.profile.image.url }} " alt="">
+        <a href="/edit-profile"> Edit Profile </a>
+        <img class="rounded-circle account-img" style="width: 10%;" src=" {{ profile.image.url }} " alt="">
         <div class="static-body">
-            <h2 class="account-heading"> {{ user.username }} </h2>
-            <p class="test-secondary"> {{user.email }} </p>
-            <p class="test-secondary"> {{user.bio }} </p>
+            <h2 class="account-heading"> {{ profile.name }} </h2>
+            <p class="test-secondary"> {{profile.email }} </p>
+            <p class="test-secondary"> {{profile.bio }} </p>
         </div>    
     </div>
 </div>
