@@ -1,0 +1,78 @@
+{% extends 'awwardsproject/base.html'%}
+{% load static%}
+
+{% block content%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+  .checked {
+    color: orange;
+  }
+</style>
+<br>
+<div class="container">
+  <div class="row row-cols-1">
+          
+      <div class="col card-group">
+        <div class="card">
+              <div class="card-body">
+                <h4 class="card-text">{{ post.title }}</h4>
+
+              <a href="/view-post/{{post.id}}">      
+                <img src="{{post.picture.url}}" class="card-img-top" style="width: 200px;" alt="...">
+              </a>
+              <p class="card-text">{{ post.post }}</p>
+              <p class="card-text">{{ post.author.username }}</p>
+              
+              <p class="card-text">
+                <a href="{{ post.projecturl }}">{{post.projecturl}}</a>
+              </p>
+              <p class="card-text">{{ post.published_date }}</p>
+              </div>
+              <div class="card-footer">
+
+                <div>
+                  Design:
+                  {% for i in scale %}
+                  <a style="all:unset;" href="/rate-post/design/post/{{ post.id }}/scale/{{ i }}">
+                    <span style="cursor: pointer;" class="fa fa-star {% if i <= design_rating %} checked {% endif %}"></span>
+                  </a>
+                  {% endfor %} ({{ design_rating }}/10)
+                </div>
+            
+      
+                <div>
+                  Usability:
+                  
+                  {% for i in scale %}
+                  <a style="all:unset;" href="/rate-post/usability/post/{{ post.id }}/scale/{{ i }}">
+                    <span style="cursor: pointer;" class="fa fa-star {% if i <= usability_rating %} checked {% endif %}"></span>
+                  </a>
+                  {% endfor %}  ({{usability_rating }}/10))
+                </div>
+      
+                <div>
+                  Content:
+                  {% for i in scale %}
+                  <a style="all:unset;" href="/rate-post/content/post/{{ post.id }}/scale/{{ i }}">
+                    <span style="cursor: pointer;" class="fa fa-star {% if i <= content_rating %} checked {% endif %}"></span>
+                  </a>
+                  {% endfor %} ({{ content_rating }}/10)
+                </div>
+              
+            </div>
+        
+        </div>
+        
+  </div>
+</div>
+
+<script>
+  function rate(type, i) {
+    alert(i)
+    
+  }
+</script>
+  
+
+{% endblock %}
