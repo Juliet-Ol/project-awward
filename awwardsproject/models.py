@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Profile(models.Model):
@@ -19,6 +20,7 @@ class Post (models.Model):
     title = models.CharField(max_length=20)
     post = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
+    projecturl= models.URLField(max_length=200, default='')
     published_date = models.DateTimeField(auto_now_add=True)
     picture = CloudinaryField('image')
 
@@ -30,8 +32,17 @@ class Post (models.Model):
         posts = cls.objects.all()
         return posts
 
-    def __str__(self):
-        return self.title        
+    def save_posts(self):
+        self.user
+    def delete_posts(self):
+        self.delete()
+    @classmethod
+    def search_projects(cls, name):
+        return cls.objects.filter(title__icontains=name).all()       
 
+class Rating(models.Model):
+    rate = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)])
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
         
