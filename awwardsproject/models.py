@@ -23,6 +23,9 @@ class Post (models.Model):
     projecturl= models.URLField(max_length=200, default='')
     published_date = models.DateTimeField(auto_now_add=True)
     picture = CloudinaryField('image')
+    design_rating = models.IntegerField(default=0)
+    usability_rating = models.IntegerField(default=0)
+    content_rating = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-published_date']  
@@ -41,8 +44,19 @@ class Post (models.Model):
         return cls.objects.filter(title__icontains=name).all()       
 
 class Rating(models.Model):
-    rate = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)])
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    # Design, Usability, Content
+    rating = models.CharField(max_length=20, default='design')
+    # "score" 1-10
+    scale = models.IntegerField(default=1)
+    # selected post
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='ratings')
+    # logged in user
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # class Meta:
+    #     constraints = [
+    #         CheckConstraint(check=Q(rate__range=(0, 10)), name='valid_rate'),
+    #         UniqueConstraint(fields=['user', 'post'], name='rating_once')
+    #     ]
 
         
