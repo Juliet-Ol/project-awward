@@ -3,26 +3,72 @@
 
 {% block content%}
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+  .checked {
+    color: orange;
+  }
+</style>
+
 <br>
-<div class="card-group">
-  <div class="card" style="width: 18rem;">
-    <div class="row">
-      <div class="col-sm-3" style="margin: 10px 20px;">
-      {% for post in posts %}
-      <h4 class="card-text">{{ post.title }}</h4>
-      <img src="{{post.picture.url}}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <p class="card-text">{{ post.post }}</p>
-          <p class="card-text">{{ post.author.username }}</p>
-          <p class="card-text">{{ post.published_date }}</p>
+<div class="container">
+  <div class="row row-cols-3">
+    {% for post in posts %}
           
-          {% endfor %}
+      <div class="col card-group">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-text">
+              <a href="/view-post/{{post.id}}"> 
+              {{ post.title }}
+            </a>
+            </h4>
+
+              <a href="/view-post/{{post.id}}">      
+                <img src="{{post.picture.url}}" class="card-img-top" style="width: 200px;height: 200px;" alt="...">
+              </a>
+              <p class="card-text">
+                {{ post.post }}
+              </p>
+              <p class="card-text"> by {{ post.author.username }} on {{ post.published_date }} </p>
+              
+              <p class="card-text">
+                <a href="{{ post.projecturl }}">{{post.projecturl}}</a>
+              </p>
+          </div>
+              
+              <div class="card-footer">
+
+                <div>
+                  Design:
+                  {% for i in scale %}
+                    <span style="cursor: pointer;" class="fa fa-star {% if i <= post.design_rating %} checked {% endif %}"></span>
+                  {% endfor %}
+                </div>
+            
+      
+                <div>
+                  Usability:
+                  
+                  {% for i in scale %}
+                    <span style="cursor: pointer;" class="fa fa-star {% if i <= post.usability_rating %} checked {% endif %}"></span>
+                  {% endfor %}
+                </div>
+      
+                <div>
+                  Content:
+                  {% for i in scale %}
+                    <span style="cursor: pointer;" class="fa fa-star {% if i <= post.content_rating %} checked {% endif %}"></span>
+                  {% endfor %}
+                </div>
+              
+            </div>
         </div>
       </div>
-    </div>
+    {% endfor %}
   </div>
 </div>
-
   
 
 {% endblock %}
