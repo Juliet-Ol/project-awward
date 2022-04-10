@@ -7,8 +7,9 @@ from .models import Post, Profile
 
 def index(request):
     profile_form=ProfileForm
+    post_form=PostForm
     post=Post.display()
-    return render(request, 'awwardsproject/index.html', {"posts":post, "profile_form":profile_form})
+    return render(request, 'awwardsproject/index.html', {"posts":post, "profile_form":profile_form, "post_form":post_form})
 
 
 
@@ -80,6 +81,7 @@ def post(request):
             post.title = form.cleaned_data['title']
             post.post = form.cleaned_data['post']
             post.author = current_user
+            post.projecturl= form.cleaned_data['projecturl']
             post.picture = form.cleaned_data['picture']
             post.save()
             messages.success(request, 'Posted')
