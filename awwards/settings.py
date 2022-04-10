@@ -17,11 +17,16 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import django_heroku
+import dj_database_url
+from decouple import config,Csv
+
 
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -49,6 +54,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     'django_registration',
     'star_ratings',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'awwards.urls'
@@ -89,7 +96,7 @@ WSGI_APPLICATION = 'awwards.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'awward',
+        'NAME': 'awwards',
         'USER': 'juliet',
     'PASSWORD':'juliet',
     }
@@ -130,6 +137,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
@@ -155,5 +163,8 @@ cloudinary.config(
   api_key = "471245994175868", 
   api_secret = "CAS-yrgWOfJHRN1IYD58181C8Sw", 
 )
+
+# configure django app
+django_heroku.settings(locals())
 
 
